@@ -1,6 +1,6 @@
 import uuid
+import threading
 import websocket
-import _thread as thread
 
 from blessed import Terminal
 from string import printable
@@ -25,7 +25,9 @@ class Client:
 
     @staticmethod
     def on_open(ws):
-        thread.start_new_thread(doitup, (ws,))
+        t = threading.Thread(target=doitup, args=(ws,))
+        t.daemon = True
+        t.start()
 
 
 def doitup(ws):

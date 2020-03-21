@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import asyncio
-import _thread as thread
+import threading
 
 from blessed import Terminal
 from string import printable
@@ -58,5 +58,8 @@ def doitup():
                 print(f'SEND: {user_input}', end='')
 
 
-thread.start_new_thread(doitup, ())
+diu = threading.Thread(target=doitup)
+diu.daemon = True
+diu.start()
+
 app.run(host='0.0.0.0', port=1337, protocol=WebSocketProtocol)
